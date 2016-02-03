@@ -135,12 +135,20 @@ public class CharacterLogic : MonoBehaviour {
             horizontalSpeed = 0;
 
         //Decelerate
-        if (Input.GetAxis("Horizontal") == 0)
+        if (Input.GetAxis("Horizontal") == 0 && robotController.isGrounded)
         {
-            if (horizontalSpeed < 0)
+            //left decel
+            if (horizontalSpeed < 0 && rotating == false)
+            {
                 horizontalSpeed *= deceleration;
-            else
+                Debug.Log(horizontalSpeed);
+            }
+            //right decel
+            else if ( horizontalSpeed > 0 && rotating == false)
+            {
                 horizontalSpeed = Mathf.Abs(horizontalSpeed) * deceleration;
+                Debug.Log(horizontalSpeed);
+            }
         }
     }
 
@@ -165,7 +173,6 @@ public class CharacterLogic : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Q) && !rotating)
         {
             pausedSpeed = new Vector3(horizontalSpeed, verticalSpeed, 0);
-            Debug.Log(pausedSpeed);
             startAngle = transform.rotation.y;
             horizontalSpeed = 0;
             verticalSpeed = 0;
@@ -187,8 +194,6 @@ public class CharacterLogic : MonoBehaviour {
             currentRotation = 0;
             horizontalSpeed = pausedSpeed.x;
             verticalSpeed = pausedSpeed.y;
-            Debug.Log(horizontalSpeed);
-            Debug.Log(verticalSpeed);
         }
 
     }
