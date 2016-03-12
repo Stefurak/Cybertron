@@ -45,7 +45,7 @@ public class CharacterLogic : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate() 
+	void Update () 
 	{
         timeleft -= Time.deltaTime;
         GUIText timeText = GameObject.FindGameObjectWithTag("Time").GetComponent<GUIText>();
@@ -141,11 +141,13 @@ public class CharacterLogic : MonoBehaviour {
             if (horizontalSpeed < 0 && rotating == false)
             {
                 horizontalSpeed *= deceleration;
+                Debug.Log(horizontalSpeed);
             }
             //right decel
             else if ( horizontalSpeed > 0 && rotating == false)
             {
                 horizontalSpeed = Mathf.Abs(horizontalSpeed) * deceleration;
+                Debug.Log(horizontalSpeed);
             }
         }
     }
