@@ -8,6 +8,25 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+#Unity Files
+*.suo
+*.sqlsuo
+*.user
+*_ReSharper.*
+*.suo
+*.log
+obj/
+bin/
+Library/
+Temp/
+*.pidb
+*.userprefs
+*.orig
+Assembly-CSharp*.csproj
+Assembly-UnityScript*.unityproj
+.DS_Store
+
+
 # Windows Installer files
 *.cab
 *.msi
