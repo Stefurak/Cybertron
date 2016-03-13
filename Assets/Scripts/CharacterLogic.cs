@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CharacterLogic : MonoBehaviour {
@@ -7,8 +8,6 @@ public class CharacterLogic : MonoBehaviour {
     public int score = 0;
     public int level = 1;
     public float timeleft;
-
-	public GUIText statusGUI;					// where the action is displayed
 
     public float speed = 2;
     public float maxSpeed = 10;                 // max speed of the character
@@ -22,10 +21,13 @@ public class CharacterLogic : MonoBehaviour {
     public Vector3 appliedForces;               // Forces being applied to the Character
     public Vector3 moveDirection = Vector3.zero;// what direction is the character moving in
 
+
+    private float jumpDelay = 0.5f;                // Time delay between jumping
+    private float timeSinceLastJump;            // Time since the last jump was made
     private Vector3 pausedSpeed;                // Stores the speed when paused
     private float startAngle;                   // Angle at which the rotation starts
     private float currentRotation;              // Current progress through rotation
-    private bool jump;      					// should the character be Jumping
+    private bool doubleJump;      			    // should the character be Jumping
     private bool rotating;                      // should the character be rotating
 
     // Use this for initialization
@@ -33,7 +35,7 @@ public class CharacterLogic : MonoBehaviour {
 	{
         timeleft = 180;
         rotating = false;
-        jump = false;
+        doubleJump = false;
 		
         GUIText levelText;
         levelText = GameObject.FindGameObjectWithTag("Level").GetComponent<GUIText>();
@@ -53,7 +55,7 @@ public class CharacterLogic : MonoBehaviour {
 
         if (timeleft <= 0)
         {
-            Application.LoadLevel("Lose");
+            SceneManager.LoadScene("Lose");
         }
 
         VerticalMovement();
@@ -88,11 +90,29 @@ public class CharacterLogic : MonoBehaviour {
 
     void VerticalMovement()
     {
+        timeSinceLastJump += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && robotController.isGrounded)
         {
             verticalSpeed += 20;
+            doubleJump = false;
+            timeSinceLastJump = 0;
+        }
+        //Double Jump
+        else if (Input.GetKeyDown(KeyCode.Space) && doubleJump == false && timeSinceLastJump > jumpDelay)
+        {
+            verticalSpeed += 20;
+            doubleJump = true;
         }
 
+        else if(Input.GetKeyDown(KeyCode.Space) && doubleJump == false && !robotController.isGrounded)
+        {
+            verticalSpeed += 20;
+            doubleJump = true;
+        }
+        else if(robotController.isGrounded)
+        {
+            doubleJump = false;
+        }
     }
 
     void HorizontalMovement()

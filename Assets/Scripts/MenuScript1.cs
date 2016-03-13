@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MenuScript1 : MonoBehaviour {
@@ -28,6 +29,6 @@ public class MenuScript1 : MonoBehaviour {
         GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<GameSaveLoad>().PlayerName = GameObject.FindGameObjectWithTag("Name").GetComponent<EditName>().stringToEdit;
         GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<GameSaveLoad>().forcedSave();
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("EditorOnly"));
-        Application.LoadLevel("Level 1");
+        SceneManager.LoadScene("Level 1");
     }
 }

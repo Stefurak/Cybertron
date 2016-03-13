@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class MenuScript2 : MonoBehaviour {
@@ -25,6 +26,6 @@ public class MenuScript2 : MonoBehaviour {
     void OnMouseDown()
     {
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("EditorOnly"));
-        Application.LoadLevel("Level 1");
+        SceneManager.LoadScene("Level 1");
     }
 }
