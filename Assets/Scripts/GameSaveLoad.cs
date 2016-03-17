@@ -95,6 +95,11 @@ public class GameSaveLoad: MonoBehaviour
         // Print saves data
         Debug.Log(_data); 
     }
+
+    public void SaveName(string name)
+    {
+        PlayerName = name;
+    }
  
 	/* The following metods came from the referenced URL */ 
 	string UTF8ByteArrayToString(byte[] characters) 

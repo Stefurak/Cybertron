@@ -17,12 +17,12 @@ public class CharacterLogic : MonoBehaviour {
     public float verticalSpeed;                 // the players vertical speed
     public float rotationalSpeed;               // the rotation speed
 
-    public CharacterController robotController;	// what is being controlled
+    public CharacterController playerController;	// what is being controlled
     public Vector3 appliedForces;               // Forces being applied to the Character
     public Vector3 moveDirection = Vector3.zero;// what direction is the character moving in
 
 
-    private float jumpDelay = 0.5f;                // Time delay between jumping
+    private float jumpDelay = 0.7f;                // Time delay between jumping
     private float timeSinceLastJump;            // Time since the last jump was made
     private Vector3 pausedSpeed;                // Stores the speed when paused
     private float startAngle;                   // Angle at which the rotation starts
@@ -43,7 +43,7 @@ public class CharacterLogic : MonoBehaviour {
 		
 		// Grab Controller attached to character
 		// collisions and what not...
-		robotController = GetComponent<CharacterController>();
+		playerController = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
@@ -58,13 +58,15 @@ public class CharacterLogic : MonoBehaviour {
             SceneManager.LoadScene("Lose");
         }
 
+        //getInput();
         VerticalMovement();
         HorizontalMovement();
         AppliedForcesMovement();
+
         verticalSpeed -= 0.5f;
 
         // Check if Character is on ground
-        if (robotController.isGrounded)
+        if (playerController.isGrounded)
         {
             if (verticalSpeed < -5)
             {
@@ -81,17 +83,17 @@ public class CharacterLogic : MonoBehaviour {
         ScreenRotation();
 
         //get the direction the player is moving
-        moveDirection = robotController.transform.forward * horizontalSpeed;
+        moveDirection = playerController.transform.forward * horizontalSpeed;
         moveDirection.y += verticalSpeed;
         // Move Character in specified direction
-        robotController.Move(moveDirection * Time.deltaTime);
+        playerController.Move(moveDirection * Time.deltaTime);
 
     } //end Update
 
     void VerticalMovement()
     {
         timeSinceLastJump += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && robotController.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && playerController.isGrounded)
         {
             verticalSpeed += 20;
             doubleJump = false;
@@ -104,12 +106,12 @@ public class CharacterLogic : MonoBehaviour {
             doubleJump = true;
         }
 
-        else if(Input.GetKeyDown(KeyCode.Space) && doubleJump == false && !robotController.isGrounded)
+        else if(Input.GetKeyDown(KeyCode.Space) && doubleJump == false && !playerController.isGrounded)
         {
             verticalSpeed += 20;
             doubleJump = true;
         }
-        else if(robotController.isGrounded)
+        else if(playerController.isGrounded)
         {
             doubleJump = false;
         }
@@ -120,6 +122,7 @@ public class CharacterLogic : MonoBehaviour {
         // Is Right Key pressed
         if (Input.GetAxis("Horizontal") > .2)
         {
+            Debug.Log("moved");
             if (horizontalSpeed == 0)
             {
                 horizontalSpeed = speed;
@@ -132,10 +135,12 @@ public class CharacterLogic : MonoBehaviour {
             {
                 horizontalSpeed = horizontalSpeed * deceleration;
             }
+            Debug.Log(horizontalSpeed);
         }
 
         if (Input.GetAxis("Horizontal") < -.2)
         {
+            Debug.Log("moved");
             if (horizontalSpeed == 0)
             {
                 horizontalSpeed = -speed;
@@ -148,6 +153,7 @@ public class CharacterLogic : MonoBehaviour {
             {
                 horizontalSpeed = Mathf.Abs(horizontalSpeed) * deceleration;
             }
+            Debug.Log(horizontalSpeed);
         }
 
         //a zeroing factor for deceleration
@@ -155,7 +161,7 @@ public class CharacterLogic : MonoBehaviour {
             horizontalSpeed = 0;
 
         //Decelerate
-        if (Input.GetAxis("Horizontal") == 0 && robotController.isGrounded)
+        if (Input.GetAxis("Horizontal") == 0 && playerController.isGrounded)
         {
             //left decel
             if (horizontalSpeed < 0 && rotating == false)

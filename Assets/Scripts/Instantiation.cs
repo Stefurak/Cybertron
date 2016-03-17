@@ -13,9 +13,8 @@ public class Instantiation : MonoBehaviour
 
     void Start()
     {
-        GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<GameSaveLoad>().forcedLoad();
-        GameObject.FindGameObjectWithTag("Score").GetComponent<GUIText>().text = "Coins: " + GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterLogic>().score.ToString();
-        GameObject.FindGameObjectWithTag("Level").GetComponent<GUIText>().text = "Level " + GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterLogic>().level.ToString();
+        //GameObject.FindGameObjectWithTag("Score").GetComponent<GUIText>().text = "Coins: " + GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterLogic>().score.ToString();
+        //GameObject.FindGameObjectWithTag("Level").GetComponent<GUIText>().text = "Level " + GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterLogic>().level.ToString();
         
         //First Segment
         Instantiate(wall, new Vector3(-5, 3, 40), Quaternion.Euler(0, 90, 0));
